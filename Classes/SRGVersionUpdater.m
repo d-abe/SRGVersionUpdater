@@ -19,7 +19,7 @@
 NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"SRGVersionUpdater.bundle"]], nil)
 #endif
 
-- (void) executeVersionCheck {
+- (void) executeVersionCheck:(void (^)(bool *))onLoad {
     NSAssert(_endPointUrl, @"Set EndPointUrl Before Execute Check");
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -27,9 +27,11 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
     [manager GET:_endPointUrl parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         versionInfo = responseObject;
+        onLoad(self.needUpdate)
         [self showUpdateAnnounceIfNeeded];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"Request Operation Error! %@", error);
+        onLoad(false)
     }];
 }
 
@@ -43,6 +45,7 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
 - (BOOL) isVersionUpNeeded {
     NSString *currentVersion  = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *requiredVersion = versionInfo[@"required_version"];
+    self.needUpdate = ( [requiredVersion compare:currentVersion options:NSNumericSearch] == NSOrderedDescending );
     return ( [requiredVersion compare:currentVersion options:NSNumericSearch] == NSOrderedDescending );
 }
 
