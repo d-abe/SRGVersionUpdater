@@ -19,7 +19,7 @@
 NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"SRGVersionUpdater.bundle"]], nil)
 #endif
 
-- (void) executeVersionCheck:(void (^)(BOOL *))onLoad {
+- (void) executeVersionCheck:(void (^)(bool))onLoad {
     NSAssert(_endPointUrl, @"Set EndPointUrl Before Execute Check");
 
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -30,16 +30,16 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
         onLoad(self.needUpdate);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"Request Operation Error! %@", error);
-        onLoad(false);
+        onLoad(self.needUpdate);
     }];
 }
 
 - (void) showUpdateAnnounceIfNeeded {
     if( ![self isVersionUpNeeded] ) {
-      self.needUpdate = NO;
+      self.needUpdate = false;
         return;
     }
-    self.needUpdate = YES;
+    self.needUpdate = true;
     [self showUpdateAnnounce];
 }
 
