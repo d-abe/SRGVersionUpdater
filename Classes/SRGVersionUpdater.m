@@ -27,11 +27,11 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
     [manager GET:_endPointUrl parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         versionInfo = responseObject;
-        onLoad(self.needUpdate)
+        onLoad(self.needUpdate);
         [self showUpdateAnnounceIfNeeded];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"Request Operation Error! %@", error);
-        onLoad(false)
+        onLoad(false);
     }];
 }
 
