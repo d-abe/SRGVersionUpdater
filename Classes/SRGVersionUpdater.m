@@ -21,14 +21,13 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
 
 - (void) executeVersionCheck:(void (^)(bool *))onLoad {
     NSAssert(_endPointUrl, @"Set EndPointUrl Before Execute Check");
-    
+
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain",@"application/json",nil];
-    [manager GET:_endPointUrl parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager GET:_endPointUrl parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         versionInfo = responseObject;
-        onLoad(self.needUpdate);
         [self showUpdateAnnounceIfNeeded];
+        onLoad(self.needUpdate);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"Request Operation Error! %@", error);
         onLoad(false);
