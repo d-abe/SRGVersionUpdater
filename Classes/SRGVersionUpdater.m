@@ -24,6 +24,7 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
 
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain",@"application/json",nil];
+    manager.requestSerializer.timeoutInterval = 10.0;
     [manager GET:_endPointUrl parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
         versionInfo = responseObject;
         [self showUpdateAnnounceIfNeeded];
