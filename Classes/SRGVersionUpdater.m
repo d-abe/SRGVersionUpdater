@@ -60,6 +60,7 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
                          handler:^(void) {
                              NSURL *updateUrl = [NSURL URLWithString:versionInfo[@"update_url"]];
                              [[UIApplication sharedApplication] openURL:updateUrl];
+                             exit(1);
                          }];
     
     if([versionInfo[@"type"] isEqualToString:@"optional"]){
