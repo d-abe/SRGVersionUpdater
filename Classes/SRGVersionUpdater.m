@@ -78,11 +78,11 @@ NSLocalizedStringFromTableInBundle(key, @"SRGVersionUpdater", [NSBundle bundleWi
 }
 
 - (NSString *) updateButtonText {
-    return [self localizedStringWithFormat:@"SRGVersionUpdater.alert.updateButton"];
+    return _customUpdateButton ? _customUpdateButton : [self localizedStringWithFormat:@"SRGVersionUpdater.alert.updateButton"];
 }
 
 - (NSString *) cancelButtonText {
-    return [self localizedStringWithFormat:@"SRGVersionUpdater.alert.calcelButton"];
+    return _customCancelButton ? _customCancelButton : [self localizedStringWithFormat:@"SRGVersionUpdater.alert.calcelButton"];
 }
 
 - (NSInteger) versionNumberFromString:(NSString *)versionString{

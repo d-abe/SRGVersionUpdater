@@ -13,6 +13,8 @@
 @property NSString *endPointUrl;
 @property NSString *customAlertTitle;
 @property NSString *customAlertBody;
+@property NSString *customUpdateButton;
+@property NSString *customCancelButton;
 @property bool needUpdate;
 
 - (void) executeVersionCheck:(void (^)(bool updateType))onLoad;
